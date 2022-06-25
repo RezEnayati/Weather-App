@@ -23,15 +23,17 @@ struct MainView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 TopBarView(location: location)
-                Spacer()
+                //Spacer()
                 Image(systemName: weatherImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 170, alignment: .center)
                     .foregroundColor(.white)
+                    .padding(.top)
                 Text("\(temp)°C")
                     .font(.system(size: 60, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
+             
                 Spacer()
                 BottomBarView()
             }
@@ -42,16 +44,5 @@ struct MainView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-    }
-}
-
-
-
-struct BottomBarView: View {
-    var body: some View {
-        RoundedRectangle(cornerRadius: 50, style: .continuous)
-            .ignoresSafeArea()
-            .aspectRatio(contentMode: .fill)
-            .frame(height: 100)
     }
 }

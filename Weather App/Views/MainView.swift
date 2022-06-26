@@ -23,7 +23,7 @@ struct MainView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 TopBarView(location: location)
-                //Spacer()
+                Spacer()
                 Image(systemName: weatherImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)

@@ -19,13 +19,10 @@ class WeatherManager: ObservableObject {
     
     func performRequest(urlString: String){
         
-        // Create URL:
-        if let url = URL(string: urlString) {
+        if let url = URL(string: urlString) {    
             
-            // Create Url Session
             let session = URLSession(configuration: .default)
             
-            // Create URLSession Task
             let task = session.dataTask(with: url) { data, response, error in
                 if error != nil {
                     print(error!)

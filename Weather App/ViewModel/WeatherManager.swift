@@ -6,62 +6,105 @@
 //
 
 import Foundation
-
+import CoreLocation
 
 class WeatherManager: ObservableObject {
     
+    var locationManager = LocationManager()
+    
+    @Published var cityName: String = "-"
+    @Published var feelsLikeString: String = "-"
+    @Published var tempString: String = "-"
+    @Published var minTempString: String = "-"
+    @Published var maxTempString: String = "-"
+    @Published var conditionString: String = "-"
+    @Published var humidityString: String = "-"
     
     
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
+    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
     
-    func fetchWeather(cityName: String) {
+    func fetchWeather(cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"
         performRequest(urlString: urlString)
     }
+    func fetchWeather(latitude: CLLocationDegrees, logitude: CLLocationDegrees) {
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(logitude)"
+        performRequest(urlString: urlString)
+        print("Fetched Weather with lat and lon")
+    }
     
-    func performRequest(urlString: String){
-        
-        if let url = URL(string: urlString) {    
-            
-            let session = URLSession(configuration: .default)
-            
-            let task = session.dataTask(with: url) { data, response, error in
-                if error != nil {
-                    print(error!)
-                    return
-                } else {
-                    
-                    if let safeData = data {
-                        if let safeWeather = self.parsJSON(weatherData: safeData){
+     private func performRequest(urlString: String){
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: url) { data, _, error in
+            if error == nil {
+                let decoder = JSONDecoder()
+                if let safeData = data {
+                    do {
+                        let weatherModel = try decoder.decode(WeatherData.self, from:safeData)
+                        DispatchQueue.main.async {
+                            //Update our Published Variables
+                            self.cityName = weatherModel.name
+                            let tempInt = weatherModel.main.temp
+                            let feelLikeInt = weatherModel.main.feels_like
+                            let tempMinInt =  weatherModel.main.temp_min
+                            let tempMaxInt = weatherModel.main.temp_max
+                            let humidityInt = weatherModel.main.humidity
+                            let conditionIdInt = weatherModel.weather[0].id
+                            
+                            self.tempString = self.stringCoverter(double: tempInt)
+                            self.feelsLikeString = self.stringCoverter(double: feelLikeInt)
+                            self.minTempString = self.stringCoverter(double: tempMinInt)
+                            self.maxTempString = self.stringCoverter(double: tempMaxInt)
+                            self.humidityString = String(format: "%.1f", humidityInt)
+                            self.conditionString = self.getConditionString(conditionID: conditionIdInt)
                             
                         }
+                    } catch {
+                        print(error, "Failed to Fetch Data!")
                     }
                 }
+            }else {
+                print(error!)
             }
-            task.resume()
         }
+        task.resume()
+    }
+}
+
+
+//MARK: -  Convertor Functions
+extension WeatherManager {
+    
+    private func stringCoverter(double: Double) -> String {
+        return String(format: "%.1f", double)
+        
     }
     
-    func parsJSON(weatherData: Data) -> WeatherModel? {
-        let decoder = JSONDecoder()
-        do{
-            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
-            
-            let id = decodedData.weather[0].id
-            let cityName = decodedData.name
-            let temp = decodedData.main.temp
-            let feelsLike = decodedData.main.feels_like
-            let min = decodedData.main.temp_min
-            let max = decodedData.main.temp_max
-            let pressure = decodedData.main.pressure
-            let humidity = decodedData.main.humidity
-            let windSpeed = decodedData.wind.speed
-            let weather = WeatherModel(conditionId: id, cityName:cityName, tempreture: temp, feelsLike: feelsLike, minimumTemp: min, maximumTemp: max, pressure: pressure, humidity: humidity, windSpeed: windSpeed)
-            return weather
-        }catch {
-            print(error)
-            return nil
+    private func getConditionString(conditionID: Int) -> String {
+        switch conditionID {
+        case 200...232:
+            return "cloud.bolt.rain"
+        case 300...321:
+            return "cloud.drizzle"
+        case 500...531:
+            return "cloud.rain"
+        case 600...622:
+            return "cloud.snow"
+        case 701...781:
+            return "cloud.fog"
+        case 800:
+            return "cloud.bolt"
+        case 801...804:
+            return "cloud.bolt"
+        default:
+            return "cloud"
         }
+        
+        
     }
+    
     
 }

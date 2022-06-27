@@ -6,15 +6,12 @@
 //
 
 import SwiftUI
-import CoreLocationUI
 
 struct MainView: View {
     
-    let k: K = K()
-    let locationManager = LocationManager()
+    let k = K()
+    @ObservedObject var weatherManager = WeatherManager()
     
-    
-    @State var weatherImage: String = "cloud.fill"
     @State var temp: Int = 20
     @State var location: String = "New York"
     
@@ -23,35 +20,32 @@ struct MainView: View {
             LinearGradient(gradient: Gradient(colors: [k.skyBlue, k.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                TopBarView(location: location)
-
-                LocationButton(.shareCurrentLocation) {
-                    locationManager.requestLocation()
-                }
+                TopBarView(location: weatherManager.cityName)
                 .cornerRadius(30)
                 .foregroundColor(.white)
                 .symbolVariant(.fill)
                 Spacer()
-                Image(systemName: weatherImage)
+                Image(systemName: weatherManager.conditionString)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 180, alignment: .center)
                     .foregroundColor(.white)
                     .padding(.top)
-                Text("\(temp)°C")
+                Text("\(weatherManager.tempString)°C")
                     .font(.system(size: 90, weight: .light, design: .rounded))
                     .foregroundColor(.white)
-             
+                
                 Spacer()
-                BottomBarView()
+                BottomBarView(minTemp: weatherManager.minTempString, maxTemp: weatherManager.maxTempString, humidity: weatherManager.humidityString, feelsLike: weatherManager.feelsLikeString)
             }
+            
         }
+        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .previewInterfaceOrientation(.portrait)
     }
 }

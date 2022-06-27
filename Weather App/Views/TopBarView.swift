@@ -11,7 +11,7 @@ import CoreLocationUI
 struct TopBarView: View {
     let k = K()
     
-    @State var location: String
+    var location: String
     @State var searchFieldText: String = "New York"
     @StateObject var dateViewModel = DateViewModel()
     
@@ -23,7 +23,7 @@ struct TopBarView: View {
                         TextField("Enter City Name:", text: $searchFieldText)
                             .textFieldStyle(.roundedBorder)
                             .cornerRadius(15)
-                            .foregroundColor(k.darkGray)
+                            .foregroundColor(.white)
                             .padding(.leading)
                             .padding(.top)
                         Button {
@@ -39,7 +39,7 @@ struct TopBarView: View {
                         }
 
                     }
-                    Text(searchFieldText)
+                    Text(location)
                         .font(.system(size: 30, weight: .light, design: .rounded))
                         .foregroundColor(.white)
                     HStack {

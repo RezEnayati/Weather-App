@@ -9,6 +9,14 @@ import SwiftUI
 
 struct BottomBarView: View {
     let k = K()
+    
+    var minTemp: String
+    var maxTemp: String
+    var humidity: String
+    var feelsLike: String
+    
+    
+    
     var body: some View {
         
         RoundedRectangle(cornerRadius: 40, style: .circular)
@@ -21,16 +29,16 @@ struct BottomBarView: View {
                 HStack{
                     VStack{
                         Spacer()
-                        DetailView(text: "Minimum:", num: 20, sufix: "°C", iconName: "thermometer.snowflake")
+                        DetailView(text: "Minimum:", num: minTemp, sufix: "°C", iconName: "thermometer.snowflake")
                         Spacer()
-                        DetailView(text: "Feels Like:", num: 30, sufix: "°C", iconName: "thermometer")
+                        DetailView(text: "Feels Like:", num: feelsLike, sufix: "°C", iconName: "thermometer")
                         Spacer()
                     }.padding(.leading)
                     VStack{
                         Spacer()
-                        DetailView(text: "Maximum:", num: 20, sufix: "°C", iconName: "thermometer.sun.fill")
+                        DetailView(text: "Maximum:", num: maxTemp, sufix: "°C", iconName: "thermometer.sun.fill")
                         Spacer()
-                        DetailView(text: "Humidity:", num: 20, sufix: " %", iconName: "drop.fill")
+                        DetailView(text: "Humidity:", num: humidity, sufix: " %", iconName: "drop.fill")
                         Spacer()
                     }.padding(.trailing)
                     
@@ -41,7 +49,7 @@ struct BottomBarView: View {
 
 struct ButtomBarView_Previews: PreviewProvider {
     static var previews: some View {
-        BottomBarView().previewLayout(.sizeThatFits)
+        BottomBarView(minTemp: "30", maxTemp: "30", humidity: "30", feelsLike: "30").previewLayout(.sizeThatFits)
     }
 }
 
@@ -49,7 +57,7 @@ struct DetailView: View {
     
     let k = K()
     var text: String
-    var num: Int
+    var num: String
     var sufix: String?
     var iconName: String
     //var imageName: String
@@ -67,7 +75,7 @@ struct DetailView: View {
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundColor(k.darkGray)
                 Text("\(num)\(sufix ?? "")")
-                    .font(.system(size: 40, weight: .semibold, design: .rounded))
+                    .font(.system(size: 35, weight: .semibold, design: .rounded))
                     .foregroundColor(k.darkBlue2)
             }
             Spacer()

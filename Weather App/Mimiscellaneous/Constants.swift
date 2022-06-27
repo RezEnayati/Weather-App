@@ -12,8 +12,12 @@ struct K {
     let lightBlue: Color = Color(red: 0.87, green: 0.96, blue: 1.00)
     let skyBlue: Color = Color(red: 0.35, green: 0.87, blue: 1.00)
     let darkBlue: Color = Color(red: 0.07, green: 0.39, blue: 0.87)
+    let darkBlue2: Color = Color(red: 0.18, green: 0.35, blue: 0.52)
     let bottomBarDarkBlue1: Color = Color(red: 0.00, green: 0.00, blue: 0.28)
     let bottomBarDarkBlue2: Color = Color(red: 0.04, green: 0.00, blue: 0.53)
     let bottomBarDarkBlue3: Color = Color(red: 0.13, green: 0.33, blue: 0.80)
     let lighBackGroundBlue: Color = Color(red: 0.68, green: 0.85, blue: 0.90)
+    let lightGray: Color = Color(red: 0.95, green: 0.95, blue: 0.95)
+    let darkGray: Color = Color(red: 0.55, green: 0.55, blue: 0.55)
+    
 }

@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct MainView: View {
     
     let k: K = K()
-    let locationManager = LocationViewModel()
+    let locationManager = LocationManager()
     
     
     @State var weatherImage: String = "cloud.fill"
@@ -23,15 +24,22 @@ struct MainView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 TopBarView(location: location)
+
+                LocationButton(.shareCurrentLocation) {
+                    locationManager.requestLocation()
+                }
+                .cornerRadius(30)
+                .foregroundColor(.white)
+                .symbolVariant(.fill)
                 Spacer()
                 Image(systemName: weatherImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 170, alignment: .center)
+                    .frame(width: 180, alignment: .center)
                     .foregroundColor(.white)
                     .padding(.top)
                 Text("\(temp)°C")
-                    .font(.system(size: 60, weight: .bold, design: .rounded))
+                    .font(.system(size: 90, weight: .light, design: .rounded))
                     .foregroundColor(.white)
              
                 Spacer()
@@ -44,5 +52,6 @@ struct MainView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .previewInterfaceOrientation(.portrait)
     }
 }

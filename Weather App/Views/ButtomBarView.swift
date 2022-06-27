@@ -12,9 +12,7 @@ struct BottomBarView: View {
     var body: some View {
         
         RoundedRectangle(cornerRadius: 40, style: .circular)
-            .fill(
-                LinearGradient(gradient: Gradient(colors: [k.skyBlue, k.bottomBarDarkBlue3]), startPoint: .bottomTrailing, endPoint: .topTrailing)
-            )
+            .fill(k.lightGray)
             .edgesIgnoringSafeArea(.bottom)
             .frame(height: 250)
             .aspectRatio(contentMode: .fill)
@@ -23,20 +21,16 @@ struct BottomBarView: View {
                 HStack{
                     VStack{
                         Spacer()
-                        DetailView(text: "Feels Like", num: 20, sufix: "°C")
+                        DetailView(text: "Minimum:", num: 20, sufix: "°C", iconName: "thermometer.snowflake")
                         Spacer()
-                        DetailView(text: "Minimum", num: 30)
-                        Spacer()
-                        DetailView(text: "Maximum", num: 30)
+                        DetailView(text: "Feels Like:", num: 30, sufix: "°C", iconName: "thermometer")
                         Spacer()
                     }.padding(.leading)
                     VStack{
                         Spacer()
-                        DetailView(text: "Pressure", num: 20)
+                        DetailView(text: "Maximum:", num: 20, sufix: "°C", iconName: "thermometer.sun.fill")
                         Spacer()
-                        DetailView(text: "Humidity", num: 20)
-                        Spacer()
-                        DetailView(text: "Wind Speed", num: 30, sufix: " KM/H")
+                        DetailView(text: "Humidity:", num: 20, sufix: " %", iconName: "drop.fill")
                         Spacer()
                     }.padding(.trailing)
                     
@@ -57,18 +51,27 @@ struct DetailView: View {
     var text: String
     var num: Int
     var sufix: String?
+    var iconName: String
+    //var imageName: String
     
     var body: some View {
         HStack{
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(k.bottomBarDarkBlue2)
-                .shadow(color: k.bottomBarDarkBlue2, radius: 2)
-                .frame(height: 60)
-                .overlay(
-                    Text("\(text): \(num)\(sufix ?? "")")
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                        .foregroundColor(.white)
-                )
-        }
+            Spacer()
+            Image(systemName: iconName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 40, alignment: .center)
+                .foregroundColor(.gray)
+            VStack{
+                Text(text)
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundColor(k.darkGray)
+                Text("\(num)\(sufix ?? "")")
+                    .font(.system(size: 40, weight: .semibold, design: .rounded))
+                    .foregroundColor(k.darkBlue2)
+            }
+            Spacer()
+            
+        }//.padding(.all)
     }
 }

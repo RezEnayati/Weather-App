@@ -6,27 +6,40 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct TopBarView: View {
     let k = K()
     
     @State var location: String
+    @State var searchFieldText: String = "New York"
     @StateObject var dateViewModel = DateViewModel()
     
     var body: some View {
         ZStack {
             HStack {
-                Button {
-                    //Button Action
-                } label: {
-                    Image(systemName: "list.bullet.indent")
-                        .font(Font.title.weight(.light))
-                        .padding(.leading)
-                        .foregroundColor(.white)
-                }
-                Spacer()
                 VStack {
-                    Text(location)
+                    HStack {
+                        TextField("Enter City Name:", text: $searchFieldText)
+                            .textFieldStyle(.roundedBorder)
+                            .cornerRadius(15)
+                            .foregroundColor(k.darkGray)
+                            .padding(.leading)
+                            .padding(.top)
+                        Button {
+                            //Some Code to make the search bar search
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 30, alignment: .center)
+                                .foregroundColor(.white)
+                                .padding(.trailing)
+                                .padding(.top)
+                        }
+
+                    }
+                    Text(searchFieldText)
                         .font(.system(size: 30, weight: .light, design: .rounded))
                         .foregroundColor(.white)
                     HStack {
@@ -38,16 +51,7 @@ struct TopBarView: View {
                         .foregroundColor(.white)
                     }
                 }
-                Spacer()
-                Button {
-                    //Button Action
-                } label: {
-                    Image(systemName: "location.fill")
-                        .font(Font.title.weight(.light))
-                        .padding(.trailing)
-                        .foregroundColor(.white)
 
-                }
             }
         }//.background(k.darkBlue)
     }

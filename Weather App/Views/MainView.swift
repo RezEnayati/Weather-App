@@ -6,41 +6,38 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct MainView: View {
     
     let k = K()
-    @ObservedObject var weatherManager = WeatherManager()
     
-    @State var temp: Int = 20
-    @State var location: String = "New York"
+    @StateObject var weatherManager = WeatherManager()
+    @ObservedObject var locationManager = LocationManager()
+    @State private var textFieldText = ""
     
+    @State var textfieldText: String?
     var body: some View {
-        ZStack {
+        let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
+        
+        return ZStack {
             LinearGradient(gradient: Gradient(colors: [k.skyBlue, k.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
                 .edgesIgnoringSafeArea(.all)
             VStack{
+                //Text(textfieldText ?? "").fontWeight(.)
                 TopBarView(location: weatherManager.cityName)
-                .cornerRadius(30)
-                .foregroundColor(.white)
-                .symbolVariant(.fill)
+                    .ignoresSafeArea(.keyboard)
                 Spacer()
-                Image(systemName: weatherManager.conditionString)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 180, alignment: .center)
-                    .foregroundColor(.white)
-                    .padding(.top)
-                Text("\(weatherManager.tempString)°C")
-                    .font(.system(size: 90, weight: .light, design: .rounded))
-                    .foregroundColor(.white)
-                
+                MiddleView(imageName: weatherManager.conditionString, temp: weatherManager.tempString)
+                    .ignoresSafeArea(.keyboard)
                 Spacer()
                 BottomBarView(minTemp: weatherManager.minTempString, maxTemp: weatherManager.maxTempString, humidity: weatherManager.humidityString, feelsLike: weatherManager.feelsLikeString)
-            }
-            
+                    .ignoresSafeArea(.keyboard)
+            }.ignoresSafeArea(.keyboard, edges: .bottom)
+        }.ignoresSafeArea(.keyboard)
+        .onAppear {
+            weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
         }
-        
     }
 }
 
@@ -49,3 +46,4 @@ struct ContentView_Previews: PreviewProvider {
         MainView()
     }
 }
+

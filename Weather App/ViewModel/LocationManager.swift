@@ -10,19 +10,23 @@ import MapKit
 
 class LocationManager: NSObject, ObservableObject {
   
-    let locationManager = CLLocationManager()
-    @Published var location: CLLocationCoordinate2D?
-    @Published var isLoading: Bool = false
+    private let locationManager = CLLocationManager()
+    @Published var location: CLLocation? = nil
+    //@Published var isLoading: Bool = false
     
     override init() {
         super.init()
         locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = kCLDistanceFilterNone
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
     }
     
-    func requestLocation(){
-        isLoading = true
-        locationManager.requestLocation()
-    }
+//    func requestLocation(){
+//        isLoading = true
+//        locationManager.requestLocation()
+//    }
 }
 
 
@@ -31,13 +35,17 @@ extension LocationManager: CLLocationManagerDelegate {
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first?.coordinate
-        isLoading = false
+        guard let location = locations.last else {
+            return
+        }
+        self.location = location
+        //isLoading = false
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Could Not Fetch Location")
-        isLoading = false
+        //isLoading = false
     }
 }
+
 

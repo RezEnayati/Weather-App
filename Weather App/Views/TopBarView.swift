@@ -12,7 +12,7 @@ struct TopBarView: View {
     let k = K()
     
     var location: String
-    @State var searchFieldText: String = "New York"
+    @State var searchFieldText: String = ""
     @StateObject var dateViewModel = DateViewModel()
     
     var body: some View {
@@ -20,12 +20,14 @@ struct TopBarView: View {
             HStack {
                 VStack {
                     HStack {
-                        TextField("Enter City Name:", text: $searchFieldText)
-                            .textFieldStyle(.roundedBorder)
-                            .cornerRadius(15)
-                            .foregroundColor(.white)
+                        TextField("Enter a city Name", text: $searchFieldText)
+                            .frame(height: 30, alignment: .center)
+                            .background(.white)
+                            .cornerRadius(10)
                             .padding(.leading)
                             .padding(.top)
+                            .textFieldStyle(.roundedBorder)
+                            .ignoresSafeArea(.keyboard)
                         Button {
                             //Some Code to make the search bar search
                         } label: {
@@ -36,12 +38,13 @@ struct TopBarView: View {
                                 .foregroundColor(.white)
                                 .padding(.trailing)
                                 .padding(.top)
-                        }
+                        }.ignoresSafeArea(.keyboard)
 
-                    }
+                    }.ignoresSafeArea(.keyboard, edges: .bottom)
                     Text(location)
                         .font(.system(size: 30, weight: .light, design: .rounded))
                         .foregroundColor(.white)
+                        .ignoresSafeArea(.keyboard)
                     HStack {
                         Text(dateViewModel.dayString)
                             .font(.system(size: 20, weight: .light, design: .rounded))
@@ -49,11 +52,13 @@ struct TopBarView: View {
                         Text(Date.now, format: .dateTime.day().month().year())
                             .font(.system(size: 20, weight: .light, design: .rounded))
                         .foregroundColor(.white)
+                        .ignoresSafeArea(.keyboard)
                     }
-                }
+                }.ignoresSafeArea(.keyboard, edges: .bottom)
 
             }
-        }//.background(k.darkBlue)
+        }.ignoresSafeArea(.keyboard)
+        //.background(k.darkBlue)
     }
 }
 

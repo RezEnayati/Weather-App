@@ -43,7 +43,7 @@ struct BottomBarView: View {
                     }.padding(.trailing)
                     
                 }.padding(.top)
-            )
+            ).ignoresSafeArea(.keyboard)
     }
 }
 

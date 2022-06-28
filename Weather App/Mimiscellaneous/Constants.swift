@@ -37,7 +37,7 @@ struct K {
     static let drop = "drop.fill"
     
     static let searching = "Finding City Please Wait!"
-    static let cityFinder = "Enter a city Name"
+    static let cityFinder = "Enter a city Name: "
     
     static let locationIcon = "location.circle.fill"
     

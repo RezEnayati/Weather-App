@@ -10,20 +10,20 @@ import CoreLocationUI
 import MapKit
 
 struct TopBarView: View {
-    let k = K()
     
-    var location: String
     @Binding var searchFieldText: String
     @StateObject var dateViewModel = DateViewModel()
-    var function: ()->Void
     
+    var location: String
+    var function: () -> Void
     
     var body: some View {
+        
         ZStack {
             HStack {
                 VStack {
                     HStack {
-                        TextField("Enter a city Name", text: $searchFieldText)
+                        TextField(K.cityFinder, text: $searchFieldText)
                             .frame(height: 30, alignment: .center)
                             .background(.white)
                             .cornerRadius(10)
@@ -36,7 +36,7 @@ struct TopBarView: View {
                             
                             self.function()
                         } label: {
-                            Image(systemName: "location.circle.fill")
+                            Image(systemName: K.locationIcon)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 30, alignment: .center)
@@ -62,6 +62,5 @@ struct TopBarView: View {
                 
             }
         }.ignoresSafeArea(.keyboard)
-        //.background(k.darkBlue)
     }
 }

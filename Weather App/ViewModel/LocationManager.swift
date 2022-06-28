@@ -12,7 +12,6 @@ class LocationManager: NSObject, ObservableObject {
   
     private let locationManager = CLLocationManager()
     @Published var location: CLLocation? = nil
-    //@Published var isLoading: Bool = false
     
     override init() {
         super.init()
@@ -22,29 +21,20 @@ class LocationManager: NSObject, ObservableObject {
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
     }
-    
-//    func requestLocation(){
-//        isLoading = true
-//        locationManager.requestLocation()
-//    }
 }
-
 
 //MARK: -  CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
-    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
             return
         }
         self.location = location
-        //isLoading = false
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Could Not Fetch Location")
-        //isLoading = false
     }
 }
 

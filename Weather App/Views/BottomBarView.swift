@@ -8,37 +8,34 @@
 import SwiftUI
 
 struct BottomBarView: View {
-    let k = K()
-    
+
     var minTemp: String
     var maxTemp: String
     var humidity: String
     var feelsLike: String
     
-    
-    
     var body: some View {
         
         RoundedRectangle(cornerRadius: 40, style: .circular)
-            .fill(k.lightGray)
+            .fill(K.lightGray)
             .edgesIgnoringSafeArea(.bottom)
             .frame(height: 250)
             .aspectRatio(contentMode: .fill)
-            .foregroundColor(k.bottomBarDarkBlue3)
+            .foregroundColor(K.bottomBarDarkBlue3)
             .overlay(
                 HStack{
                     VStack{
                         Spacer()
-                        DetailView(text: "Minimum:", num: minTemp, sufix: "°C", iconName: "thermometer.snowflake")
+                        DetailView(text: K.min, num: minTemp, sufix: K.degrees, iconName: K.coldThermo)
                         Spacer()
-                        DetailView(text: "Feels Like:", num: feelsLike, sufix: "°C", iconName: "thermometer")
+                        DetailView(text: K.feelsLike, num: feelsLike, sufix: K.degrees, iconName: K.thermo)
                         Spacer()
                     }.padding(.leading)
                     VStack{
                         Spacer()
-                        DetailView(text: "Maximum:", num: maxTemp, sufix: "°C", iconName: "thermometer.sun.fill")
+                        DetailView(text: K.max, num: maxTemp, sufix: K.degrees, iconName: K.hotThermo)
                         Spacer()
-                        DetailView(text: "Humidity:", num: humidity, sufix: " %", iconName: "drop.fill")
+                        DetailView(text: K.humidity , num: humidity, sufix: K.percentage, iconName: K.drop)
                         Spacer()
                     }.padding(.trailing)
                     
@@ -47,20 +44,12 @@ struct BottomBarView: View {
     }
 }
 
-struct ButtomBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        BottomBarView(minTemp: "30", maxTemp: "30", humidity: "30", feelsLike: "30").previewLayout(.sizeThatFits)
-    }
-}
-
 struct DetailView: View {
-    
-    let k = K()
+
     var text: String
     var num: String
     var sufix: String?
     var iconName: String
-    //var imageName: String
     
     var body: some View {
         HStack{
@@ -73,13 +62,19 @@ struct DetailView: View {
             VStack{
                 Text(text)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundColor(k.darkGray)
+                    .foregroundColor(K.darkGray)
                 Text("\(num)\(sufix ?? "")")
                     .font(.system(size: 35, weight: .semibold, design: .rounded))
-                    .foregroundColor(k.darkBlue2)
+                    .foregroundColor(K.darkBlue2)
             }
             Spacer()
             
-        }//.padding(.all)
+        }
+    }
+}
+
+struct ButtomBarView_Previews: PreviewProvider {
+    static var previews: some View {
+        BottomBarView(minTemp: "30", maxTemp: "30", humidity: "30", feelsLike: "30").previewLayout(.sizeThatFits)
     }
 }

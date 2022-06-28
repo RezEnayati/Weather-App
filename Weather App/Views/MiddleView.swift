@@ -26,7 +26,7 @@ struct MiddleView: View {
                 .font(.system(size: 90, weight: .light, design: .rounded))
                 .foregroundColor(.white)
                 .ignoresSafeArea(.keyboard)
-        }.ignoresSafeArea(.keyboard, edges: .bottom)//.background(Color.black)
+        }.ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

@@ -18,8 +18,7 @@ class WeatherManager: ObservableObject{
     @Published var conditionString: String = "-"
     @Published var humidityString: String = "-"
     
-    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
-    
+    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=\(API.key)&units=metric"
     
     func fetchWeather(cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"
@@ -29,13 +28,16 @@ class WeatherManager: ObservableObject{
     func fetchWeather(latitude: CLLocationDegrees, logitude: CLLocationDegrees) -> Void{
         let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(logitude)"
         performRequest(urlString: urlString)
-        //print("Fetched Weather with lat and lon")
     }
     
     private func performRequest(urlString: String){
+        
+        self.cityName = K.searching
+        
         guard let url = URL(string: urlString) else {
             return
         }
+        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, _, error in
             if error == nil {
@@ -62,23 +64,30 @@ class WeatherManager: ObservableObject{
                             self.conditionString = self.getConditionString(conditionID: conditionIdInt)
                             
                         }
-                    } catch {
-                        print(error, "Failed to Fetch Data!")
                         
+                    } catch {
+                        print(error, K.failedData)
+                        DispatchQueue.main.async {
+                            self.cityName = K.cityFailed
+                        }
                     }
                 }
+                
             }else {
                 print(error!)
-                
+                DispatchQueue.main.async {
+                    self.cityName = K.cityFailed
+                }
             }
         }
+        
         task.resume()
     }
     
 }
 
 
-//MARK: -  Convertor Functions
+//MARK: -  Extra Functions
 extension WeatherManager {
     
     private func stringCoverter(double: Double) -> String {
@@ -89,25 +98,21 @@ extension WeatherManager {
     private func getConditionString(conditionID: Int) -> String {
         switch conditionID {
         case 200...232:
-            return "cloud.bolt.rain"
+            return "cloud.bolt.rain.fill"
         case 300...321:
-            return "cloud.drizzle"
+            return "cloud.drizzle.fill"
         case 500...531:
-            return "cloud.rain"
+            return "cloud.rain.fill"
         case 600...622:
-            return "cloud.snow"
+            return "cloud.snow.fill"
         case 701...781:
-            return "cloud.fog"
+            return "cloud.fog.fill"
         case 800:
-            return "cloud.bolt"
+            return "sun.max.fill"
         case 801...804:
             return "cloud.bolt"
         default:
-            return "cloud"
+            return "cloud.fill"
         }
-        
-        
     }
-    
-    
 }

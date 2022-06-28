@@ -10,30 +10,29 @@ import MapKit
 
 struct MainView: View {
     
-    let k = K()
-    
     @StateObject var weatherManager = WeatherManager()
     @ObservedObject var locationManager = LocationManager()
     @State private var textFieldText = ""
-    @State var emptyString = ""
     
     var body: some View {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         
         return ZStack {
-            LinearGradient(gradient: Gradient(colors: [k.skyBlue, k.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
+            LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 //Text(textfieldText ?? "").fontWeight(.)
                 HStack {
-                    TopBarView(location: weatherManager.cityName, searchFieldText: $textFieldText){
+                    TopBarView(searchFieldText: $textFieldText, location: weatherManager.cityName){
                         weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
                     }
-                        .onSubmit {
-                            if textFieldText == "" {
-                                
-                            }
+                    .onSubmit {
+                        if textFieldText != "" {
+                            weatherManager.cityName = K.searching
+                            weatherManager.fetchWeather(cityName: textFieldText)
+                            weatherManager.cityName = ""
                         }
+                    }
                     .ignoresSafeArea(.keyboard)
                 }
                 Spacer()
@@ -44,10 +43,11 @@ struct MainView: View {
                     .ignoresSafeArea(.keyboard)
             }.ignoresSafeArea(.keyboard, edges: .bottom)
         }.ignoresSafeArea(.keyboard)
-        .onAppear {
-            weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
-        }
+            .onAppear {
+                weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
+            }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

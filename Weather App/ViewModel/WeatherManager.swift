@@ -18,7 +18,7 @@ class WeatherManager: ObservableObject{
     @Published var conditionString: String = "-"
     @Published var humidityString: String = "-"
     
-    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=\(API.key)&units=metric"
+    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
     
     func fetchWeather(cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"

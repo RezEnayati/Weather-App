@@ -8,8 +8,7 @@
 import Foundation
 import CoreLocation
 
-class WeatherManager: ObservableObject {
-    
+class WeatherManager: ObservableObject{
     
     @Published var cityName: String = "-"
     @Published var feelsLikeString: String = "-"
@@ -19,23 +18,21 @@ class WeatherManager: ObservableObject {
     @Published var conditionString: String = "-"
     @Published var humidityString: String = "-"
     
-    
     private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
     
-    func fetchWeather(cityName: String) -> Void{
+    
+    func fetchWeather(cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"
         performRequest(urlString: urlString)
     }
-    
-    
      
-    func fetchWeather(latitude: CLLocationDegrees, logitude: CLLocationDegrees) -> Void {
+    func fetchWeather(latitude: CLLocationDegrees, logitude: CLLocationDegrees) -> Void{
         let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(logitude)"
         performRequest(urlString: urlString)
         //print("Fetched Weather with lat and lon")
     }
     
-     private func performRequest(urlString: String){
+    private func performRequest(urlString: String){
         guard let url = URL(string: urlString) else {
             return
         }
@@ -61,20 +58,23 @@ class WeatherManager: ObservableObject {
                             self.feelsLikeString = self.stringCoverter(double: feelLikeInt)
                             self.minTempString = self.stringCoverter(double: tempMinInt)
                             self.maxTempString = self.stringCoverter(double: tempMaxInt)
-                            self.humidityString = String(format: "%.1f", humidityInt)
+                            self.humidityString = String(humidityInt)
                             self.conditionString = self.getConditionString(conditionID: conditionIdInt)
                             
                         }
                     } catch {
                         print(error, "Failed to Fetch Data!")
+                        
                     }
                 }
             }else {
                 print(error!)
+                
             }
         }
         task.resume()
     }
+    
 }
 
 

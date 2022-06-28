@@ -7,13 +7,16 @@
 
 import SwiftUI
 import CoreLocationUI
+import MapKit
 
 struct TopBarView: View {
     let k = K()
     
     var location: String
-    @State var searchFieldText: String = ""
+    @Binding var searchFieldText: String
     @StateObject var dateViewModel = DateViewModel()
+    var function: ()->Void
+    
     
     var body: some View {
         ZStack {
@@ -28,10 +31,12 @@ struct TopBarView: View {
                             .padding(.top)
                             .textFieldStyle(.roundedBorder)
                             .ignoresSafeArea(.keyboard)
+                            .submitLabel(.go)
                         Button {
-                            //Some Code to make the search bar search
+                            
+                            self.function()
                         } label: {
-                            Image(systemName: "magnifyingglass")
+                            Image(systemName: "location.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 30, alignment: .center)
@@ -39,7 +44,6 @@ struct TopBarView: View {
                                 .padding(.trailing)
                                 .padding(.top)
                         }.ignoresSafeArea(.keyboard)
-
                     }.ignoresSafeArea(.keyboard, edges: .bottom)
                     Text(location)
                         .font(.system(size: 30, weight: .light, design: .rounded))
@@ -48,26 +52,16 @@ struct TopBarView: View {
                     HStack {
                         Text(dateViewModel.dayString)
                             .font(.system(size: 20, weight: .light, design: .rounded))
-                        .foregroundColor(.white)
+                            .foregroundColor(.white)
                         Text(Date.now, format: .dateTime.day().month().year())
                             .font(.system(size: 20, weight: .light, design: .rounded))
-                        .foregroundColor(.white)
-                        .ignoresSafeArea(.keyboard)
+                            .foregroundColor(.white)
+                            .ignoresSafeArea(.keyboard)
                     }
                 }.ignoresSafeArea(.keyboard, edges: .bottom)
-
+                
             }
         }.ignoresSafeArea(.keyboard)
         //.background(k.darkBlue)
-    }
-}
-
-struct TopBarView_Previews: PreviewProvider {
-    
-    @State static var location = "New York"
-    
-    static var previews: some View {
-        TopBarView(location: location)
-            .previewLayout(.sizeThatFits)
     }
 }

@@ -15,8 +15,8 @@ struct MainView: View {
     @StateObject var weatherManager = WeatherManager()
     @ObservedObject var locationManager = LocationManager()
     @State private var textFieldText = ""
+    @State var emptyString = ""
     
-    @State var textfieldText: String?
     var body: some View {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         
@@ -25,8 +25,17 @@ struct MainView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 //Text(textfieldText ?? "").fontWeight(.)
-                TopBarView(location: weatherManager.cityName)
+                HStack {
+                    TopBarView(location: weatherManager.cityName, searchFieldText: $textFieldText){
+                        weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
+                    }
+                        .onSubmit {
+                            if textFieldText == "" {
+                                
+                            }
+                        }
                     .ignoresSafeArea(.keyboard)
+                }
                 Spacer()
                 MiddleView(imageName: weatherManager.conditionString, temp: weatherManager.tempString)
                     .ignoresSafeArea(.keyboard)

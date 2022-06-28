@@ -23,7 +23,7 @@ struct MainView: View {
             VStack{
                 //Text(textfieldText ?? "").fontWeight(.)
                 HStack {
-                    TopBarView(location: weatherManager.cityName, searchFieldText: $textFieldText){
+                    TopBarView(searchFieldText: $textFieldText, location: weatherManager.cityName){
                         weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
                     }
                     .onSubmit {

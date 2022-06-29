@@ -32,7 +32,10 @@ class WeatherManager: ObservableObject{
     
     private func performRequest(urlString: String){
         
-        self.cityName = K.searching
+         DispatchQueue.main.async {
+             
+            self.cityName = K.searching
+        }
         
         guard let url = URL(string: urlString) else {
             return

@@ -110,7 +110,7 @@ extension WeatherManager {
         case 800:
             return "sun.max.fill"
         case 801...804:
-            return "cloud.bolt"
+            return "cloud.bolt.fill"
         default:
             return "cloud.fill"
         }

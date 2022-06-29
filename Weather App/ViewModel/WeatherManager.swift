@@ -94,7 +94,7 @@ class WeatherManager: ObservableObject{
 extension WeatherManager {
     
     private func stringCoverter(double: Double) -> String {
-        return String(format: "%.1f", double)
+        return String(format: "%.f", double)
         
     }
     

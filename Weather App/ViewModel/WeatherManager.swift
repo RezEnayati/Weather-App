@@ -31,14 +31,15 @@ class WeatherManager: ObservableObject{
     }
     
     private func performRequest(urlString: String){
-        
-        self.cityName = K.searching
-        
+        DispatchQueue.main.async {
+            self.cityName = K.searching
+        }
         guard let url = URL(string: urlString) else {
             return
         }
         
         let session = URLSession(configuration: .default)
+        
         let task = session.dataTask(with: url) { data, _, error in
             if error == nil {
                 let decoder = JSONDecoder()
@@ -46,7 +47,10 @@ class WeatherManager: ObservableObject{
                     do {
                         let weatherModel = try decoder.decode(WeatherData.self, from:safeData)
                         DispatchQueue.main.async {
+                            
                             //Update our Published Variables
+                            
+                            self.cityName = weatherModel.name
                             let cityName = weatherModel.name
                             let tempInt = weatherModel.main.temp
                             let feelLikeInt = weatherModel.main.feels_like
@@ -91,8 +95,7 @@ class WeatherManager: ObservableObject{
 extension WeatherManager {
     
     private func stringCoverter(double: Double) -> String {
-        return String(format: "%.1f", double)
-        
+        return String(format: "%.f", double)
     }
     
     private func getConditionString(conditionID: Int) -> String {
@@ -110,7 +113,7 @@ extension WeatherManager {
         case 800:
             return "sun.max.fill"
         case 801...804:
-            return "cloud.bolt"
+            return "cloud.bolt.fill"
         default:
             return "cloud.fill"
         }

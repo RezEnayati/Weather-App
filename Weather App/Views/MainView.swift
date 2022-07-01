@@ -18,10 +18,8 @@ struct MainView: View {
         let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         
         return ZStack {
-            LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
-                .edgesIgnoringSafeArea(.all)
+            K.gradient.edgesIgnoringSafeArea(.all)
             VStack{
-                //Text(textfieldText ?? "").fontWeight(.)
                 HStack {
                     TopBarView(searchFieldText: $textFieldText, location: weatherManager.cityName){
                         weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)

@@ -21,6 +21,8 @@ struct K {
     static let darkGray: Color = Color(red: 0.55, green: 0.55, blue: 0.55)
     static let launchScreenColor: Color = Color(red: 0.90, green: 0.90, blue: 0.90)
     
+    static let gradient: LinearGradient = LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
+    
     static let degrees = "°C"
     
     static let min = "Minimum:"

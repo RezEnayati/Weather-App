@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct ScrollView: View {
-    init() {
-        UINavigationBar.appearance().backgroundColor = UIColor(K.bottomBarDarkBlue1)
-    
-    }
+
     var body: some View {
         NavigationView {
             List {
-                Text("Weather 1")
-                Text("Weather 2")
-                Text("Weather 3")
-            }
-            .navigationBarTitle("Weather List ")
+                ScrollViewButton(cityName: "London", cityTemp: "30", imageIcon: "cloud.fill")
+                    .listRowSeparator(.hidden)
+                ScrollViewButton(cityName: "London", cityTemp: "30", imageIcon: "cloud.fill")
+                    .listRowSeparator(.hidden)
+                ScrollViewButton(cityName: "London", cityTemp: "30", imageIcon: "cloud.fill")
+                    .listRowSeparator(.hidden)
+                ScrollViewButton(cityName: "London", cityTemp: "30", imageIcon: "cloud.fill")
+                    .listRowSeparator(.hidden)
+            }.listStyle(.plain)
+            .navigationBarTitle("Cities")
+            
         }
     }
 }

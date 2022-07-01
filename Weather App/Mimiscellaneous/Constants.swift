@@ -23,6 +23,8 @@ struct K {
     
     static let gradient: LinearGradient = LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
     
+    static let scrollGradient: LinearGradient = LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
     static let degrees = "°C"
     
     static let min = "Minimum:"

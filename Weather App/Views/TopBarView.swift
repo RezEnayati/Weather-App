@@ -23,6 +23,18 @@ struct TopBarView: View {
             HStack {
                 VStack {
                     HStack {
+                        NavigationLink {
+                            ScrollView()
+                        } label: {
+                            Image(systemName: "list.dash")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20, alignment: .center)
+                                .foregroundColor(.white)
+                                .padding(.leading)
+                                .padding(.top)
+                        }
+
                         TextField(K.cityFinder, text: $searchFieldText)
                             .frame(height: 30, alignment: .center)
                             .background(.white)
@@ -33,7 +45,6 @@ struct TopBarView: View {
                             .ignoresSafeArea(.keyboard)
                             .submitLabel(.go)
                         Button {
-                            
                             self.function()
                         } label: {
                             Image(systemName: K.locationIcon)

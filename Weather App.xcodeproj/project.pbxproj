@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF47D82F286D035A008EBC2E /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47D82E286D035A008EBC2E /* WeatherModel.swift */; };
 		AF47D833286EA0B5008EBC2E /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47D832286EA0B5008EBC2E /* ScrollView.swift */; };
+		AF47D835286F2D81008EBC2E /* ScrollViewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF47D834286F2D81008EBC2E /* ScrollViewButton.swift */; };
 		AF503DA0286779D2001244F7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF503D9F286779D2001244F7 /* Constants.swift */; };
 		AF503DA228678009001244F7 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF503DA128678009001244F7 /* TopBarView.swift */; };
 		AF503DA528678424001244F7 /* DateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF503DA428678424001244F7 /* DateViewModel.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		AF47D82E286D035A008EBC2E /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		AF47D832286EA0B5008EBC2E /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		AF47D834286F2D81008EBC2E /* ScrollViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewButton.swift; sourceTree = "<group>"; };
 		AF503D9F286779D2001244F7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AF503DA128678009001244F7 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		AF503DA428678424001244F7 /* DateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewModel.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				AF503DA92867B8A3001244F7 /* BottomBarView.swift */,
 				AFC8CA91286B9EB400659C35 /* Launch Screen.storyboard */,
 				AF47D832286EA0B5008EBC2E /* ScrollView.swift */,
+				AF47D834286F2D81008EBC2E /* ScrollViewButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF89D72528638F4700E5BCE3 /* MainView.swift in Sources */,
+				AF47D835286F2D81008EBC2E /* ScrollViewButton.swift in Sources */,
 				AF503DA728679320001244F7 /* LocationManager.swift in Sources */,
 				AF89D72328638F4700E5BCE3 /* Weather_AppApp.swift in Sources */,
 				AF503DA528678424001244F7 /* DateViewModel.swift in Sources */,

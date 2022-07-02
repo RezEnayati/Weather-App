@@ -10,6 +10,9 @@ import CoreLocation
 
 class WeatherManager: ObservableObject{
     
+    var dateFormatter = DateFormater()
+    var locationManager = LocationManager()
+    
     @Published var cityName: String = "-"
     @Published var feelsLikeString: String = "-"
     @Published var tempString: String = "-"
@@ -17,6 +20,15 @@ class WeatherManager: ObservableObject{
     @Published var maxTempString: String = "-"
     @Published var conditionString: String = "-"
     @Published var humidityString: String = "-"
+    @Published var dateString: String = "-"
+    @Published var textFieldText: String = ""
+    @Published var textFieldPalceHolder: String = K.citySearch
+    @Published var imgeIcon: String = K.locationIcon
+    
+        
+    init(){
+        dateString = dateFormatter.dayString
+    }
     
     private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
     
@@ -40,41 +52,41 @@ class WeatherManager: ObservableObject{
         
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, _, error in
-            if error == nil {
-                let decoder = JSONDecoder()
-                if let safeData = data {
-                    do {
-                        let weatherModel = try decoder.decode(WeatherData.self, from:safeData)
-                        DispatchQueue.main.async {
-                            //Update our Published Variables
-                            let cityName = weatherModel.name
-                            let tempInt = weatherModel.main.temp
-                            let feelLikeInt = weatherModel.main.feels_like
-                            let tempMinInt =  weatherModel.main.temp_min
-                            let tempMaxInt = weatherModel.main.temp_max
-                            let humidityInt = weatherModel.main.humidity
-                            let conditionIdInt = weatherModel.weather[0].id
-                            
-                            self.cityName =  cityName
-                            self.tempString = self.stringCoverter(double: tempInt)
-                            self.feelsLikeString = self.stringCoverter(double: feelLikeInt)
-                            self.minTempString = self.stringCoverter(double: tempMinInt)
-                            self.maxTempString = self.stringCoverter(double: tempMaxInt)
-                            self.humidityString = String(humidityInt)
-                            self.conditionString = self.getConditionString(conditionID: conditionIdInt)
-                            
-                        }
-                        
-                    } catch {
-                        print(error, K.failedData)
-                        DispatchQueue.main.async {
-                            self.cityName = K.cityFailed
-                        }
-                    }
+            
+            // Mohammad: for situation like this you should use guard else
+            // DONE
+            guard let data = data else {
+                print(error!)
+                DispatchQueue.main.async {
+                    self.cityName = K.failedData
+                }
+                return
+            }
+            let decoder = JSONDecoder()
+            do {
+                let weatherModel = try decoder.decode(WeatherData.self, from:data)
+                DispatchQueue.main.async {
+                    
+                    let cityName = weatherModel.name
+                    let tempInt = weatherModel.main.temp
+                    let feelLikeInt = weatherModel.main.feels_like
+                    let tempMinInt =  weatherModel.main.temp_min
+                    let tempMaxInt = weatherModel.main.temp_max
+                    let humidityInt = weatherModel.main.humidity
+                    let conditionIdInt = weatherModel.weather[0].id
+                    
+                    self.cityName =  cityName
+                    self.tempString = self.stringCoverter(double: tempInt)
+                    self.feelsLikeString = self.stringCoverter(double: feelLikeInt)
+                    self.minTempString = self.stringCoverter(double: tempMinInt)
+                    self.maxTempString = self.stringCoverter(double: tempMaxInt)
+                    self.humidityString = String(humidityInt)
+                    self.conditionString = self.getConditionString(conditionID: conditionIdInt)
+                    
                 }
                 
-            }else {
-                print(error!)
+            } catch {
+                print(error, K.cityFailed)
                 DispatchQueue.main.async {
                     self.cityName = K.cityFailed
                 }

@@ -30,6 +30,15 @@ class WeatherManager: ObservableObject{
         dateString = dateFormatter.dayString
     }
     
+    func updateTextField(textFieldText: String){
+       if textFieldText != "" {
+            DispatchQueue.main.async {
+                self.cityName = K.searching
+            }
+            self.fetchWeather(cityName: textFieldText)
+        }
+    }
+    
     private let weatherURL = "https://api.openweathermap.org/data/2.5/weather?,us&appid=3449b3e01c720fb49afc1f4a1f00b31f&units=metric"
     
     func fetchWeather(cityName: String){

@@ -12,10 +12,11 @@ import MapKit
 struct TopBarView: View {
     
     @Binding var searchFieldText: String
-    @StateObject var dateViewModel = DateViewModel()
-    
+    var dateString: String
     var location: String
-    var function: () -> Void
+    var imageIcon: String
+    var textFieldPlaceHolder: String
+    var findCity: () -> Void
     
     var body: some View {
         
@@ -23,7 +24,7 @@ struct TopBarView: View {
             HStack {
                 VStack {
                     HStack {
-                        TextField(K.cityFinder, text: $searchFieldText)
+                        TextField(textFieldPlaceHolder, text: $searchFieldText)
                             .frame(height: 30, alignment: .center)
                             .background(.white)
                             .cornerRadius(10)
@@ -33,10 +34,9 @@ struct TopBarView: View {
                             .ignoresSafeArea(.keyboard)
                             .submitLabel(.go)
                         Button {
-                            
-                            self.function()
+                            findCity()
                         } label: {
-                            Image(systemName: K.locationIcon)
+                            Image(systemName: imageIcon)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 30, alignment: .center)
@@ -50,7 +50,7 @@ struct TopBarView: View {
                         .foregroundColor(.white)
                         .ignoresSafeArea(.keyboard)
                     HStack {
-                        Text(dateViewModel.dayString)
+                        Text(dateString)
                             .font(.system(size: 20, weight: .light, design: .rounded))
                             .foregroundColor(.white)
                         Text(Date.now, format: .dateTime.day().month().year())

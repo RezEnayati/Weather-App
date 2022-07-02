@@ -10,42 +10,38 @@ import MapKit
 
 struct MainView: View {
     
-    @StateObject var weatherManager = WeatherManager()
+    @ObservedObject var weatherViewModel = WeatherViewModel()
     @ObservedObject var locationManager = LocationManager()
-    @State private var textFieldText = ""
     
     var body: some View {
-        let coordinate = self.locationManager.location != nil ? self.locationManager.location!.coordinate : CLLocationCoordinate2D()
         
+        let coordinate = locationManager.location != nil ? locationManager.location!.coordinate : CLLocationCoordinate2D()
         return ZStack {
-            LinearGradient(gradient: Gradient(colors: [K.skyBlue, K.darkBlue]), startPoint: .bottomTrailing, endPoint: .topTrailing)
-                .edgesIgnoringSafeArea(.all)
+            K.gradient.edgesIgnoringSafeArea(.all)
             VStack{
-                //Text(textfieldText ?? "").fontWeight(.)
-                HStack {
-                    TopBarView(searchFieldText: $textFieldText, location: weatherManager.cityName){
-                        weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
-                    }
-                    .onSubmit {
-                        if textFieldText != "" {
-                            weatherManager.cityName = K.searching
-                            weatherManager.fetchWeather(cityName: textFieldText)
-                            weatherManager.cityName = ""
-                        }
-                    }
-                    .ignoresSafeArea(.keyboard)
+                
+                TopBarView(searchFieldText: $weatherViewModel.textFieldText , dateString: weatherViewModel.dateString, location: weatherViewModel.cityName, imageIcon: weatherViewModel.imgeIcon, textFieldPlaceHolder: weatherViewModel.textFieldPalceHolder){
+                    weatherViewModel.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
                 }
+                .onSubmit {
+                    weatherViewModel.updateTextField(textFieldText: weatherViewModel.textFieldText)
+                    weatherViewModel.textFieldText = ""
+                }
+                
+                
                 Spacer()
-                MiddleView(imageName: weatherManager.conditionString, temp: weatherManager.tempString)
-                    .ignoresSafeArea(.keyboard)
+                
+                MiddleView(imageName: weatherViewModel.conditionString, temp: weatherViewModel.tempString)
+                
                 Spacer()
-                BottomBarView(minTemp: weatherManager.minTempString, maxTemp: weatherManager.maxTempString, humidity: weatherManager.humidityString, feelsLike: weatherManager.feelsLikeString)
-                    .ignoresSafeArea(.keyboard)
+                
+                BottomBarView(minTemp: weatherViewModel.minTempString, maxTemp: weatherViewModel.maxTempString, humidity: weatherViewModel.humidityString, feelsLike: weatherViewModel.feelsLikeString)
+                
             }.ignoresSafeArea(.keyboard, edges: .bottom)
-        }.ignoresSafeArea(.keyboard)
-            .onAppear {
-                weatherManager.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
-            }
+        }
+        .onAppear {
+            weatherViewModel.fetchWeather(latitude: coordinate.latitude, logitude: coordinate.longitude)
+        }
     }
     
 }

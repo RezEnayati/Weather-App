@@ -11,5 +11,6 @@ This is a weather app built using SwiftUi and [Open Weather Map API](https://ope
 - Correct ViewModel setup 
 - Allow users to save multipe cities
 - Multiple day forcast for each city 
+- Clone of Apple Weather App
 #
 
